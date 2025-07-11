@@ -1,5 +1,5 @@
-name: Github Action that outputes a message 
-run-name: Deploying ${{ inputs.docker_image }} with tag ${{ inputs.image_tag }}
+name: Deploy Base Docker Image
+run-name: Deploying ${{ inputs.docker_image }}:${{ inputs.image_tag }}
 on:
   workflow_dispatch:
     inputs:
