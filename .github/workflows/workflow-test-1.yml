@@ -1,0 +1,22 @@
+name: Github Action that outputes a message 
+run-name: Message
+on:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Commit message for the base image update.'
+        required: true
+        default: 'Hello World!'
+   
+jobs:
+  Output-Message:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Output Wf Inputs
+        run: "echo \"Workflow input message: ${{ inputs.message }}\""
+        
+      - name: Output Message
+        shell: bash
+        run: |
+          echo "The message is: ${{ inputs.message }}"
