@@ -1,22 +1,42 @@
 name: Github Action that outputes a message 
-run-name: Message
+run-name: Deploying ${{ inputs.docker_image }} with tag ${{ inputs.image_tag }}
 on:
   workflow_dispatch:
     inputs:
-      message:
-        description: 'Commit message for the base image update.'
+      docker_image:
+        default: 'almalinux'
+        description: 'Choose the container image to deploy.'
         required: true
-        default: 'Hello World!'
+        type: choice
+        options:
+          - 'almalinux'
+          - 'alpine'
+          - 'ubuntu'
+      image_digest:
+        description: 'Set the index digest of the image'
+        required: true
+        type: string
+      image_tag:
+        description: 'Set the tag for the image'
+        required: true
+        type: string
+      platform:
+        default: 'linux/amd64'
+        description: 'Set the os/arch of the image.'
+        required: true
+        type: choice
+        options:
+          - 'linux/amd64'
+          - 'linux/arm64'
+          - 'linux/amd64,linux/arm64'
+          - 'linux/amd64,linux/arm64/v8'
    
 jobs:
   Output-Message:
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - name: Output Wf Inputs
-        run: "echo \"Workflow input message: ${{ inputs.message }}\""
-        
       - name: Output Message
         shell: bash
         run: |
-          echo "The message is: ${{ inputs.message }}"
+          echo "The message is: Deploying ${{ inputs.docker_image }} with tag ${{ inputs.image_tag }} and digest ${{ inputs.image_digest }} on platform ${{ inputs.platform }} by @${{ github.actor }}"
